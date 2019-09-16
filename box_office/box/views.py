@@ -83,7 +83,7 @@ class Daily_Box(APIView):
                                 "thumbnail": {
                                     "imageUrl": "https://movie-phinf.pstatic.net/20190910_213/1568079594808C8bae_JPEG/movie_image.jpg",
                                     "fixedRatio" : True,
-                                    "width":480,
+                                    "width":360,
                                     "height":480,
                                     "link": {
                                         "web": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"}
