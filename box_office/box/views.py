@@ -16,6 +16,21 @@ client_id = config['client_id']
 secret_key = config['secret_key']
 
 
+def get_movie_content(movie_name):
+    movie_name_encode = parse.quote_plus(movie_name)
+    url = "https://openapi.naver.com/v1/search/movie.json?query=" + movie_name_encode
+    search_request = request.Request(url)
+    search_request.add_header("X-Naver-Client-Id", client_id)
+    search_request.add_header("X-Naver-Client-Secret", secret_key)
+    response = request.urlopen(search_request)
+    rescode = response.getcode()
+    if rescode == 200:
+        response_body = response.read()
+        return json.loads(response_body.decode('utf-8'))
+    else:
+        print("Error code:" + rescode)
+
+
 class Daily_Box(APIView):
 
     def get_box_office(self):
@@ -25,27 +40,10 @@ class Daily_Box(APIView):
         data = requests.get(api)
         return data.json()
 
-
-    def get_movie_content(self, movie_name):
-        movie_name_encode = parse.quote_plus(movie_name)
-        url = "https://openapi.naver.com/v1/search/movie.json?query=" + movie_name_encode
-        search_request = request.Request(url)
-        search_request.add_header("X-Naver-Client-Id", client_id)
-        search_request.add_header("X-Naver-Client-Secret", secret_key)
-        response = request.urlopen(search_request)
-        rescode = response.getcode()
-        if rescode == 200:
-            response_body = response.read()
-            return json.loads(response_body.decode('utf-8'))
-        else:
-            print("Error code:" + rescode)
-
-    def get(self, request:Request):
-        box = self.get_box_office()
-        movies = box['boxOfficeResult']['dailyBoxOfficeList']
-        movies_list = []
+    def data_list(self,movies):
+        movies_list=[]
         for movie in movies :
-            movie_content = self.get_movie_content(movie['movieNm'])
+            movie_content = get_movie_content(movie['movieNm'])
             dicts ={
                 "title": movie['movieNm'],
                 "description": f'감독 : {movie_content["items"][0]["director"].replace("|","")}\n출연 : {movie_content["items"][0]["actor"]}\n평점 : {movie_content["items"][0]["userRating"]}',
@@ -62,6 +60,14 @@ class Daily_Box(APIView):
                 ]
             }
             movies_list.append(dicts)
+        return movies_list
+
+
+    def post(self, request:Request):
+        box = self.get_box_office()
+        movies = box['boxOfficeResult']['dailyBoxOfficeList']
+        movies_list = self.data_list(movies)
+
         return Response(data={
             "version": "2.0",
             "template": {
