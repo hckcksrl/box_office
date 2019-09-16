@@ -49,7 +49,9 @@ class Daily_Box(APIView):
                 "description": f'감독 : {movie_content["items"][0]["director"].replace("|","")}\n출연 : {movie_content["items"][0]["actor"]}\n평점 : {movie_content["items"][0]["userRating"]}',
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
-                    "link": movie_content["items"][0]["link"]
+                    "link": {
+                        "web" : movie_content["items"][0]["link"]
+                    }
                 },
                 "buttons": [
                     {
@@ -76,27 +78,7 @@ class Daily_Box(APIView):
                 "outputs": [{
                     "carousel": {
                         "type": "basicCard",
-                        "items": [
-                            {
-                                "title": "나쁜 녀석들: 더 무비",
-                                "description": "감독 : 손용호\n출연 : 마동석|김상중|김아중|장기용|\n평점 : 6.93",
-                                "thumbnail": {
-                                    "imageUrl": "https://movie-phinf.pstatic.net/20190910_213/1568079594808C8bae_JPEG/movie_image.jpg",
-                                    "fixedRatio" : True,
-                                    "width":360,
-                                    "height":480,
-                                    "link": {
-                                        "web": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"}
-                                },
-                                "buttons": [
-                                {
-                                    "action": "webLink",
-                                    "label": "사이트 이동",
-                                    "webLinkUrl": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
-                                }
-                                ]
-                            }
-                        ]
+                        "items": movies_list
                     }
                 }]
             }}
