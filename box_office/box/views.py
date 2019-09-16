@@ -43,12 +43,15 @@ class Daily_Box(APIView):
     def data_list(self, movies):
         movies_list = []
         for movie in movies:
+
             content = get_movie_content(movie['movieNm'])
             movie_content = content["items"][0]
             director = movie_content["director"].replace("|", "")
             actor = movie_content["actor"].rstrip('|').replace("|", ",")
             rating = movie_content["userRating"]
             image = movie_content["image"]
+            link = movie_content["link"]
+
             dicts = {
                 "title": f'{movie["movieNm"]}\n감독 : {director}',
                 "description": f'출연 : {actor}\n평점 : {rating}',
@@ -62,7 +65,7 @@ class Daily_Box(APIView):
                     {
                         "action": "webLink",
                         "label": "사이트 이동",
-                        "webLinkUrl": movie_content["items"][0]["link"]
+                        "webLinkUrl": link
                     }
                 ]
             }
