@@ -96,5 +96,17 @@ class Weekly_Box(APIView):
         pass
 
 
+class Weeked_Box(APIView):
+
+    def post(self, request:Request):
+        pass
+
+
+class Movie_Search(APIView):
+
+    def post(self, request:Request):
+        pass
+
+
 
 # Create your views here.
