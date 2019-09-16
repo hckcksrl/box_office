@@ -8,7 +8,7 @@ import json
 import datetime
 from urllib import parse,request
 
-with open('/Users/hckcksrl/Desktop/study/box_office/box_office/box/config.json', 'r') as f:
+with open('/home/ubuntu/box_office/box_office/box/config.json', 'r') as f:
     config = json.load(f)
 
 api_key = config['api_key']
@@ -40,11 +40,11 @@ class Daily_Box(APIView):
         data = requests.get(api)
         return data.json()
 
-    def data_list(self,movies):
+    def data_list(self, movies):
         movies_list=[]
         for movie in movies :
             movie_content = get_movie_content(movie['movieNm'])
-            dicts ={
+            dicts={
                 "title": movie['movieNm'],
                 "description": f'감독 : {movie_content["items"][0]["director"].replace("|","")}\n출연 : {movie_content["items"][0]["actor"]}\n평점 : {movie_content["items"][0]["userRating"]}',
                 "thumbnail": {
@@ -68,13 +68,17 @@ class Daily_Box(APIView):
         movies = box['boxOfficeResult']['dailyBoxOfficeList']
         movies_list = self.data_list(movies)
 
+        print(type(movies_list[0]))
+
         return Response(data={
             "version": "2.0",
             "template": {
                 "outputs": [{
                     "carousel": {
                     "type": "basicCard",
-                    "items": movies_list
+                    "items": [
+                        movies_list[0]
+                        ]
                     }
                 }]
             }}
