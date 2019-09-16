@@ -49,20 +49,14 @@ class Daily_Box(APIView):
                 "description": f'감독 : {movie_content["items"][0]["director"].replace("|","")}\n출연 : {movie_content["items"][0]["actor"]}\n평점 : {movie_content["items"][0]["userRating"]}',
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
-                    "fixedRatio": True,
-                    "width": 360,
-                    "height": 480,
-                    "link": {
-                        "web" : movie_content["items"][0]["link"]
-                    }
                 },
-                "buttons": [
-                    {
-                        "action": "webLink",
-                        "label": "사이트 이동",
-                        "webLinkUrl": movie_content["items"][0]["link"]
-                    }
-                ]
+                #"buttons": [
+                #    {
+                #        "action": "webLink",
+                #        "label": "사이트 이동",
+                #        "webLinkUrl": movie_content["items"][0]["link"]
+                #    }
+                #]
             }
             movies_list.append(dicts)
         return movies_list
