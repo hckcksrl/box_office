@@ -41,28 +41,28 @@ class Daily_Box(APIView):
         return data["items"][0]
 
     def data_list(self, movies):
-        movies_list=[]
-        for movie in movies :
+        movies_list = []
+        for movie in movies:
             movie_content = get_movie_content(movie['movieNm'])
-            director = movie_content["director"].replace("|","")
-            actor = movie_content["actor"].rstrip('|').replace("|",",")
+            director = movie_content["director"].replace("|", "")
+            actor = movie_content["actor"].rstrip('|').replace("|", ",")
             rating = movie_content["userRating"]
             image = movie_content["image"]
-            dicts={
+            dicts = {
                 "title": f'{movie["movieNm"]}\n감독 : {director}',
                 "description": f'출연 : {actor}\n평점 : {rating}',
                 "thumbnail": {
                     "imageUrl": image,
                     "fixedRatio": True,
-                    "width":480,
-                    "height":480,
+                    "width": 480,
+                    "height": 480,
                 },
                 "buttons": [
-                   {
-                       "action": "webLink",
-                       "label": "사이트 이동",
-                       "webLinkUrl": movie_content["items"][0]["link"]
-                   }
+                    {
+                        "action": "webLink",
+                        "label": "사이트 이동",
+                        "webLinkUrl": movie_content["items"][0]["link"]
+                    }
                 ]
             }
             movies_list.append(dicts)
