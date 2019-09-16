@@ -84,13 +84,13 @@ class Daily_Box(APIView):
                                     "imageUrl": "https://ssl.pstatic.net/imgmovie/mdi/mit110/1779/177909_P32_103957.jpg",
                                     "link": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
                                 },
-                                "buttons": [
-                                {
-                                    "action": "webLink",
-                                    "label": "사이트 이동",
-                                    "webLinkUrl": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
-                                }
-                                ]
+                                # "buttons": [
+                                # {
+                                #     "action": "webLink",
+                                #     "label": "사이트 이동",
+                                #     "webLinkUrl": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
+                                # }
+                                # ]
                             }
                         ]
                     }
