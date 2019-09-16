@@ -53,13 +53,13 @@ class Daily_Box(APIView):
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
                 },
-                #"buttons": [
-                #    {
-                #        "action": "webLink",
-                #        "label": "사이트 이동",
-                #        "webLinkUrl": movie_content["items"][0]["link"]
-                #    }
-                #]
+                "buttons": [
+                   {
+                       "action": "webLink",
+                       "label": "사이트 이동",
+                       "webLinkUrl": movie_content["items"][0]["link"]
+                   }
+                ]
             }
             movies_list.append(dicts)
         return movies_list
