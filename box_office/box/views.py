@@ -38,20 +38,23 @@ class Daily_Box(APIView):
         date = str(int(todey) - 1)
         api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key={api_key}&targetDt={date}'
         data = requests.get(api)
-        return data.json()
+        return data.json()["items"][0]
 
     def data_list(self, movies):
         movies_list=[]
         for movie in movies :
             movie_content = get_movie_content(movie['movieNm'])
-            director = movie_content["items"][0]["director"].replace("|","")
-            actor = movie_content["items"][0]["actor"].rstrip('|').replace("|",",")
-            rating = movie_content["items"][0]["userRating"]
+            director = movie_content["director"].replace("|","")
+            actor = movie_content["actor"].rstrip('|').replace("|",",")
+            rating = movie_content["userRating"]
             dicts={
                 "title": f'{movie["movieNm"]}\n감독 : {director}',
                 "description": f'출연 : {actor}\n평점 : {rating}',
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
+                    "fixedRatio": True,
+                    "width":480,
+                    "height":480,
                 },
                 "buttons": [
                    {
