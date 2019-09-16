@@ -81,7 +81,7 @@ class Daily_Box(APIView):
                                 "title": "나쁜 녀석들: 더 무비",
                                 "description": "감독 : 손용호\n출연 : 마동석|김상중|김아중|장기용|\n평점 : 6.93",
                                 "thumbnail": {
-                                    "imageUrl": "https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=177909",
+                                    "imageUrl": "https://movie-phinf.pstatic.net/20190910_213/1568079594808C8bae_JPEG/movie_image.jpg",
                                     "fixedRatio" : True,
                                     "width":480,
                                     "height":480,
