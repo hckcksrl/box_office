@@ -82,6 +82,9 @@ class Daily_Box(APIView):
                                 "description": "감독 : 손용호\n출연 : 마동석|김상중|김아중|장기용|\n평점 : 6.93",
                                 "thumbnail": {
                                     "imageUrl": "https://ssl.pstatic.net/imgmovie/mdi/mit110/1779/177909_P32_103957.jpg",
+                                    "fixedRatio" : True,
+                                    "width":480,
+                                    "height":480,
                                     "link": {
                                         "web": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"}
                                 },
