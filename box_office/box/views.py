@@ -48,8 +48,8 @@ class Daily_Box(APIView):
             actor = movie_content["items"][0]["actor"].rstrip('|').replace("|",",")
             rating = movie_content["items"][0]["userRating"]
             dicts={
-                "title": movie['movieNm'],
-                "description": f'감독 : {director}\n출연 : {actor}\n평점 : {rating}',
+                "title": f'{movie["movieNm"]}\n감독 : {director}',
+                "description": f'출연 : {actor}\n평점 : {rating}',
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
                 },
