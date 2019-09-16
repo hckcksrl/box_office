@@ -44,9 +44,12 @@ class Daily_Box(APIView):
         movies_list=[]
         for movie in movies :
             movie_content = get_movie_content(movie['movieNm'])
+            director = movie_content["items"][0]["director"].replace("|","")
+            actor = movie_content["items"][0]["actor"]
+            rating = movie_content["items"][0]["userRating"]
             dicts={
                 "title": movie['movieNm'],
-                "description": f'감독 : {movie_content["items"][0]["director"].replace("|","")}\n출연 : {movie_content["items"][0]["actor"]}\n평점 : {movie_content["items"][0]["userRating"]}',
+                "description": f'감독 : {director}\n출연 : {actor}\n평점 : {rating}',
                 "thumbnail": {
                     "imageUrl": movie_content["items"][0]["image"],
                 },
