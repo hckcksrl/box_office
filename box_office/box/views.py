@@ -82,15 +82,15 @@ class Daily_Box(APIView):
                                 "description": "감독 : 손용호\n출연 : 마동석|김상중|김아중|장기용|\n평점 : 6.93",
                                 "thumbnail": {
                                     "imageUrl": "https://ssl.pstatic.net/imgmovie/mdi/mit110/1779/177909_P32_103957.jpg",
-                            #         "link": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
+                                    "link": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
                                 },
-                            #     "buttons": [
-                            #     {
-                            #         "action": "webLink",
-                            #         "label": "사이트 이동",
-                            #         "webLinkUrl": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
-                            #     }
-                            #     ]
+                                "buttons": [
+                                {
+                                    "action": "webLink",
+                                    "label": "사이트 이동",
+                                    "webLinkUrl": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=177909"
+                                }
+                                ]
                             }
                         ]
                     }
