@@ -109,8 +109,9 @@ class Movie_Search(APIView):
         movie_name = data['action']['params']['movie_name']
 
         content = get_movie_content(movie_name)
+        print(content)
         movie_content = content["items"][0]
-        title = movie_content["title"].replace('<p>', '').replace('</p>', '')
+        title = movie_content["title"].replace('<b>', '').replace('</b>', '')
         director = movie_content["director"].replace("|", "")
         actor = movie_content["actor"].rstrip('|').replace("|", ",")
         rating = movie_content["userRating"]
