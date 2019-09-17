@@ -109,7 +109,6 @@ class Movie_Search(APIView):
         movie_name = data['action']['params']['movie_name']
 
         content = get_movie_content(movie_name)
-        print(content)
         movie_content = content["items"][0]
         title = movie_content["title"].replace('<b>', '').replace('</b>', '')
         director = movie_content["director"].replace("|", "")
@@ -129,8 +128,8 @@ class Movie_Search(APIView):
                             "thumbnail": {
                                 "imageUrl": image,
                                 "fixedRatio" : True,
-                                "width" : 480,
-                                "height" : 480
+                                "width" : 100,
+                                "height" : 100
                             },
                             "buttons":[{
                                 "action": "webLink",
