@@ -105,8 +105,39 @@ class Weeked_Box(APIView):
 class Movie_Search(APIView):
 
     def post(self, request:Request):
-        pass
+        data = request.data
+        movie_name = data['action']['params']['movie_name']
 
+        content = get_movie_content(movie_name)
+        movie_content = content["items"][0]
+        title = movie_content["title"].replace('<p>', '').replace('</p>', '')
+        director = movie_content["director"].replace("|", "")
+        actor = movie_content["actor"].rstrip('|').replace("|", ",")
+        rating = movie_content["userRating"]
+        image = movie_content["image"]
+        link = movie_content["link"]
 
+        return Response(data={
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "basicCard": {
+                            "title": title,
+                            "description": f'감독 : {director}\n배우 : {actor}\n평점 : {rating}',
+                            "thumbnail": {
+                                "imageUrl": image
+                            },
+                            "buttons":[{
+                                "action": "webLink",
+                                "label": "사이트 이동",
+                                "webLinkUrl": link
+
+                            }]
+                        }
+                    }
+                ]}
+        }
+        )
 
 # Create your views here.
