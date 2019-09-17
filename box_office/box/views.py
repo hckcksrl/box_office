@@ -38,13 +38,13 @@ def data_list(movies, time):
         movie_content = content["items"][0]
         image = movie_content["image"]
         link = movie_content["link"]
-        openDt = movie_content["openDt"].replace('-',',')
-        audiCnt = movie_content["audiCnt"]
-        audiAcc = movie_content["audiAcc"]
+        open_dt = movie["openDt"].replace('-',',')
+        audi_cnt = movie["audiCnt"]
+        audi_acc = movie["audiAcc"]
 
         dicts = {
-            "title": f'{movie["movieNm"]}\n개봉날짜 : {openDt}',
-            "description": f'{time} : {audiCnt}\n누적 : {audiAcc}',
+            "title": f'{movie["movieNm"]}\n개봉날짜 : {open_dt}',
+            "description": f'{time} : {audi_cnt}\n누적 : {audi_acc}',
             "thumbnail": {
                 "imageUrl": image,
                 "fixedRatio": True,
