@@ -69,7 +69,6 @@ class Daily_Box(APIView):
     def get_box_office(self):
         today = datetime.datetime.now()
         date = (today - datetime.timedelta(days=1)).strftime('%Y%m%d')
-        print(date)
         api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key={api_key}&targetDt={date}'
         data = requests.get(api).json()
         return data
