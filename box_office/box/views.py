@@ -132,12 +132,12 @@ class Movie_Search(APIView):
                                 "width" : 480,
                                 "height" : 480
                             },
-                            # "buttons":[{
-                            #     "action": "webLink",
-                            #     "label": "사이트 이동",
-                            #     "webLinkUrl": link
-                            #
-                            # }]
+                            "buttons":[{
+                                "action": "webLink",
+                                "label": "사이트 이동",
+                                "webLinkUrl": link
+
+                            }]
                         }
                     }
                 ]}
