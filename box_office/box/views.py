@@ -30,6 +30,39 @@ def get_movie_content(movie_name):
     else:
         print("Error code:" + rescode)
 
+def data_list(movies):
+    movies_list = []
+    for movie in movies:
+
+        content = get_movie_content(movie_name=movie['movieNm'])
+        movie_content = content["items"][0]
+        director = movie_content["director"].replace("|", "")
+        actor = movie_content["actor"].rstrip('|').replace("|", ",")
+        rating = movie_content["userRating"]
+        image = movie_content["image"]
+        link = movie_content["link"]
+
+        dicts = {
+            "title": f'{movie["movieNm"]}\n감독 : {director}',
+            "description": f'출연 : {actor}\n평점 : {rating}',
+            "thumbnail": {
+                "imageUrl": image,
+                "fixedRatio": True,
+                "width": 480,
+                "height": 480,
+            },
+            "buttons": [
+                {
+                    "action": "webLink",
+                    "label": "사이트 이동",
+                    "webLinkUrl": link
+                }
+            ]
+        }
+        movies_list.append(dicts)
+    return movies_list
+
+
 
 class Daily_Box(APIView):
 
@@ -40,43 +73,12 @@ class Daily_Box(APIView):
         data = requests.get(api).json()
         return data
 
-    def data_list(self, movies):
-        movies_list = []
-        for movie in movies:
-
-            content = get_movie_content(movie['movieNm'])
-            movie_content = content["items"][0]
-            director = movie_content["director"].replace("|", "")
-            actor = movie_content["actor"].rstrip('|').replace("|", ",")
-            rating = movie_content["userRating"]
-            image = movie_content["image"]
-            link = movie_content["link"]
-
-            dicts = {
-                "title": f'{movie["movieNm"]}\n감독 : {director}',
-                "description": f'출연 : {actor}\n평점 : {rating}',
-                "thumbnail": {
-                    "imageUrl": image,
-                    "fixedRatio": True,
-                    "width": 480,
-                    "height": 480,
-                },
-                "buttons": [
-                    {
-                        "action": "webLink",
-                        "label": "사이트 이동",
-                        "webLinkUrl": link
-                    }
-                ]
-            }
-            movies_list.append(dicts)
-        return movies_list
 
 
     def post(self, request:Request):
         box = self.get_box_office()
         movies = box['boxOfficeResult']['dailyBoxOfficeList']
-        movies_list = self.data_list(movies)
+        movies_list = data_list(movies=movies)
 
         return Response(data={
             "version": "2.0",
@@ -92,8 +94,36 @@ class Daily_Box(APIView):
 
 class Weekly_Box(APIView):
 
+    def get_weekly_box(self, block):
+        todey = datetime.datetime.now().strftime('%Y%m%d')
+        day = datetime.datetime.today().weekday()
+        date = str(int(todey) - (day+1))
+        week = 0
+        if block == '주말 박스오피스':
+            week = 1
+        api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key={api_key}&targetDt={date}&weekGb={week}'
+        data = requests.get(api).json()
+        return data
+
+
     def post(self, request:Request):
-        pass
+        data = request.data
+        block = data['userRequest']['block']['name']
+        box = self.get_weekly_box(block=block)
+        movies = box['boxOfficeResult']['weeklyBoxOfficeList']
+        movies_list = data_list(movies=movies)
+
+        return Response(data={
+            "version": "2.0",
+            "template": {
+                "outputs": [{
+                    "carousel": {
+                        "type": "basicCard",
+                        "items": movies_list
+                    }
+                }]
+            }}
+        )
 
 
 class Weeked_Box(APIView):
@@ -108,7 +138,7 @@ class Movie_Search(APIView):
         data = request.data
         movie_name = data['action']['params']['movie_name']
 
-        content = get_movie_content(movie_name)
+        content = get_movie_content(movie_name=movie_name)
         movie_content = content["items"][0]
         title = movie_content["title"].replace('<b>', '').replace('</b>', '')
         director = movie_content["director"].replace("|", "")
