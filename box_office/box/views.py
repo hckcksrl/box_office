@@ -45,7 +45,7 @@ def data_list(movies, time):
 
         dicts = {
             "title": f'{movie["movieNm"]}\n개봉날짜 : {open_dt} 개봉',
-            "description": f'{time} : {audi_cnt}명\n누적 : {audi_acc}명',
+            "description": f'{time.split()[0]} : {"{:,}".format(int(audi_cnt))}명\n누적 :{"{:,}".format(int(audi_acc))}명',
             "thumbnail": {
                 "imageUrl": image,
                 "fixedRatio": True,
