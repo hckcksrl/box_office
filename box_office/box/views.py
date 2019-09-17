@@ -40,13 +40,12 @@ def data_list(movies, time):
         image = movie_content["image"]
         link = movie_content["link"]
         open_dt = movie["openDt"].replace('-',',')
-        print(open_dt)
         audi_cnt = movie["audiCnt"]
         audi_acc = movie["audiAcc"]
 
         dicts = {
             "title": f'{movie["movieNm"]}\n개봉날짜 : {open_dt} 개봉',
-            "description": f'{time} : {audi_cnt}\n누적 : {audi_acc}',
+            "description": f'{time} : {audi_cnt}명\n누적 : {audi_acc}명',
             "thumbnail": {
                 "imageUrl": image,
                 "fixedRatio": True,
@@ -70,6 +69,7 @@ class Daily_Box(APIView):
     def get_box_office(self):
         today = datetime.datetime.now()
         date = (today - datetime.timedelta(days=-1)).strftime('%Y%m%d')
+        print(date)
         api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key={api_key}&targetDt={date}'
         data = requests.get(api).json()
         return data
@@ -95,6 +95,7 @@ class Daily_Box(APIView):
                 }]
             }}
         )
+
 
 class Weekly_Box(APIView):
 
