@@ -30,21 +30,21 @@ def get_movie_content(movie_name):
     else:
         print("Error code:" + rescode)
 
-def data_list(movies):
+def data_list(movies, time):
     movies_list = []
     for movie in movies:
 
         content = get_movie_content(movie_name=movie['movieNm'])
         movie_content = content["items"][0]
-        director = movie_content["director"].replace("|", "")
-        actor = movie_content["actor"].rstrip('|').replace("|", ",")
-        rating = movie_content["userRating"]
         image = movie_content["image"]
         link = movie_content["link"]
+        openDt = movie_content["openDt"].replace('-',',')
+        audiCnt = movie_content["audiCnt"]
+        audiAcc = movie_content["audiAcc"]
 
         dicts = {
-            "title": f'{movie["movieNm"]}\n감독 : {director}',
-            "description": f'출연 : {actor}\n평점 : {rating}',
+            "title": f'{movie["movieNm"]}\n개봉날짜 : {openDt}',
+            "description": f'{time.replace()[0]} : {audiCnt}\n누적 : {audiAcc}',
             "thumbnail": {
                 "imageUrl": image,
                 "fixedRatio": True,
@@ -67,8 +67,8 @@ def data_list(movies):
 class Daily_Box(APIView):
 
     def get_box_office(self):
-        todey = datetime.datetime.now().strftime('%Y%m%d')
-        date = str(int(todey) - 1)
+        today = datetime.datetime.now()
+        date = (today - datetime.timedelta(days=-1)).strftime('%Y%m%d')
         api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key={api_key}&targetDt={date}'
         data = requests.get(api).json()
         return data
@@ -76,9 +76,12 @@ class Daily_Box(APIView):
 
 
     def post(self, request:Request):
+        data = request.data
+        block = data['userRequest']['block']['name']
+
         box = self.get_box_office()
         movies = box['boxOfficeResult']['dailyBoxOfficeList']
-        movies_list = data_list(movies=movies)
+        movies_list = data_list(movies=movies,time=block)
 
         return Response(data={
             "version": "2.0",
@@ -95,9 +98,9 @@ class Daily_Box(APIView):
 class Weekly_Box(APIView):
 
     def get_weekly_box(self, block):
-        todey = datetime.datetime.now().strftime('%Y%m%d')
+        today = datetime.datetime.now()
         day = datetime.datetime.today().weekday()
-        date = str(int(todey) - (day+1))
+        date = (today - datetime.timedelta(days=(day+1))).strftime('%Y%m%d')
         week = 0
         if block == '주말 박스오피스':
             week = 1
@@ -109,9 +112,10 @@ class Weekly_Box(APIView):
     def post(self, request:Request):
         data = request.data
         block = data['userRequest']['block']['name']
+
         box = self.get_weekly_box(block=block)
         movies = box['boxOfficeResult']['weeklyBoxOfficeList']
-        movies_list = data_list(movies=movies)
+        movies_list = data_list(movies=movies,time=block)
 
         return Response(data={
             "version": "2.0",
