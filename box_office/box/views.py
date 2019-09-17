@@ -127,9 +127,9 @@ class Movie_Search(APIView):
                             "description": f'감독 : {director}\n배우 : {actor}\n평점 : {rating}',
                             "thumbnail": {
                                 "imageUrl": image,
-                                "fixedRatio" : True,
-                                "width" : 100,
-                                "height" : 100
+                                "fixedRatio": True,
+                                "width" : 0,
+                                "height" : 0
                             },
                             "buttons":[{
                                 "action": "webLink",
