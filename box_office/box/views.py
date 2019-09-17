@@ -1,7 +1,5 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 from rest_framework.request import Request
 import requests
 import json
@@ -64,7 +62,7 @@ def data_list(movies, time):
     return movies_list
 
 
-class Daily_Box(APIView):
+class DailyBox(APIView):
 
     def get_box_office(self):
         today = datetime.datetime.now()
@@ -73,16 +71,12 @@ class Daily_Box(APIView):
         data = requests.get(api).json()
         return data
 
-
-
     def post(self, request:Request):
         data = request.data
         block = data['userRequest']['block']['name']
-
         box = self.get_box_office()
         movies = box['boxOfficeResult']['dailyBoxOfficeList']
         movies_list = data_list(movies=movies,time=block)
-
         return Response(data={
             "version": "2.0",
             "template": {
@@ -96,7 +90,7 @@ class Daily_Box(APIView):
         )
 
 
-class Weekly_Box(APIView):
+class WeeklyBox(APIView):
 
     def get_weekly_box(self, block):
         today = datetime.datetime.now()
@@ -108,7 +102,6 @@ class Weekly_Box(APIView):
         api = f'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key={api_key}&targetDt={date}&weekGb={week}'
         data = requests.get(api).json()
         return data
-
 
     def post(self, request:Request):
         data = request.data
@@ -131,13 +124,7 @@ class Weekly_Box(APIView):
         )
 
 
-class Weeked_Box(APIView):
-
-    def post(self, request:Request):
-        pass
-
-
-class Movie_Search(APIView):
+class MovieSearch(APIView):
 
     def post(self, request:Request):
         data = request.data
@@ -175,7 +162,7 @@ class Movie_Search(APIView):
                         }
                     }
                 ]}
-        }
+            }
         )
 
 # Create your views here.
