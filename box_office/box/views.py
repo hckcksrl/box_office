@@ -30,6 +30,7 @@ def get_movie_content(movie_name):
     else:
         print("Error code:" + rescode)
 
+
 def data_list(movies, time):
     movies_list = []
     for movie in movies:
@@ -39,11 +40,12 @@ def data_list(movies, time):
         image = movie_content["image"]
         link = movie_content["link"]
         open_dt = movie["openDt"].replace('-',',')
+        print(open_dt)
         audi_cnt = movie["audiCnt"]
         audi_acc = movie["audiAcc"]
 
         dicts = {
-            "title": f'{movie["movieNm"]}\n개봉날짜 : {open_dt}',
+            "title": f'{movie["movieNm"]}\n개봉날짜 : {open_dt} 개봉',
             "description": f'{time} : {audi_cnt}\n누적 : {audi_acc}',
             "thumbnail": {
                 "imageUrl": image,
@@ -61,7 +63,6 @@ def data_list(movies, time):
         }
         movies_list.append(dicts)
     return movies_list
-
 
 
 class Daily_Box(APIView):
