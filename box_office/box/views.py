@@ -13,7 +13,6 @@ api_key = config['api_key']
 client_id = config['client_id']
 secret_key = config['secret_key']
 
-
 def get_movie_content(movie_name):
     movie_name_encode = parse.quote_plus(movie_name)
     url = "https://openapi.naver.com/v1/search/movie.json?query=" + movie_name_encode
