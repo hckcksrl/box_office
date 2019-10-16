@@ -13,6 +13,13 @@
 * uwsgi , nginx를 Django와 연동
 * AWS EC2를 사용해 배포
 
+### Stack
+
+* Django
+* Kobis Open API
+* Naver Open API
+* Kakao OpenBuilder
+
 # 첨부
 
 ### Github
